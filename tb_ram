@@ -1,0 +1,90 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 2022/11/23 14:06:21
+// Design Name: 
+// Module Name: ram
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+module tb_ram;
+       //general input
+       reg reset;
+       //input a
+       reg wr_a,clk_a,en_a;
+       reg [4:0] addr_a;
+       reg [15:0] data_in_a;
+       //input b
+       reg wr_b,clk_b,en_b;
+       reg [4:0] addr_b;
+       reg [15:0] data_in_b;
+       //output a
+       wire [15:0] data_out_a;
+       //output b
+       wire [15:0] data_out_b;
+       
+       ram uut(
+       .data_out_a(data_out_a),
+       .data_in_a(data_in_a),
+       .addr_a(addr_a),
+       .wr_a(wr_a),
+       .clk_a(clk_a),
+       .en_a(en_a),
+       .data_out_b(data_out_b),
+       .data_in_b(data_in_b),
+       .addr_b(addr_b),
+       .wr_b(wr_b),
+       .clk_b(clk_b),
+       .en_b(en_b),
+       .reset(reset)
+       );
+       
+       always #5 clk_a = ~clk_a;
+       always #8 clk_b = ~clk_b;
+       initial begin
+       reset = 1'b1;
+       //Port a
+       clk_a = 1'b0;
+       en_a = 1'b0;
+       wr_a = 1'b0;
+       addr_a = 4'b0000;
+       data_in_a = 16'd19;
+       //Port b
+       clk_b = 1'b0;
+       en_b = 1'b0;
+       wr_b = 1'b0;
+       addr_b = 4'b0001;
+       data_in_b = 16'd52;
+       #10;
+       reset = 1'b0;
+       en_a = 1'b1;
+       wr_a = 1'b1;
+       en_b = 1'b1;
+       #20;
+       wr_a = 1'b0;
+       #20;
+       wr_b = 1'b1;
+       #20;
+       wr_b = 1'b0;
+       #20;
+       wr_a = 1'b1;
+       addr_a = 4'd2;
+       data_in_a = 16'd85;
+       #20;
+       wr_a = 1'b0;
+       #20;
+       $finish;
+       end
+endmodule
