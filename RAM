@@ -1,0 +1,44 @@
+module ram(data_out_a,data_in_a,addr_a,wr_a,clk_a,en_a,data_out_b,data_in_b,addr_b,wr_b,clk_b,en_b,reset);
+       //parameters
+       parameter RAM_DATA_WIDTH = 15;
+       parameter RAM_ADDR_WIDTH = 3;
+       //general input
+       input reset;
+       //input a
+       input clk_a,en_a;
+       input wr_a; //when wr_a is 1 is write; 0 is read
+       input [RAM_ADDR_WIDTH:0] addr_a;
+       input [RAM_DATA_WIDTH:0] data_in_a;
+       //input b
+       input clk_b,en_b;
+       input wr_b; //when wr_b is 1 is write; 0 is read
+       input [RAM_ADDR_WIDTH:0] addr_b;
+       input [RAM_DATA_WIDTH:0] data_in_b;
+       //output a
+       output reg  [RAM_DATA_WIDTH:0] data_out_a;
+       //output b
+       output reg  [RAM_DATA_WIDTH:0] data_out_b;
+       
+       reg [RAM_DATA_WIDTH:0] ram [1023:0];
+       
+       //Port a
+       always @(posedge clk_a) begin
+       if(reset)
+       data_out_a <= 16'd0;
+       if (en_a) 
+       if (wr_a) 
+       ram[addr_a] <= data_in_a;
+       else 
+       data_out_a <= ram[addr_a];
+       end
+       //Port b
+       always @(posedge clk_b) begin
+       if(reset)
+       data_out_b <= 16'd0;
+       if (en_b) 
+       if (wr_b)
+       ram[addr_b] <= data_in_b;
+       else
+       data_out_b <= ram[addr_b];
+       end
+endmodule
