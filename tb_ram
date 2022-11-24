@@ -85,6 +85,12 @@ module tb_ram;
        #20;
        wr_a = 1'b0;
        #20;
+       addr_a = 4'd0;
+       #20;
+       addr_a = 4'd1;
+       #20;
+       addr_a = 4'd2;
+       #20;
        $finish;
        end
 endmodule
